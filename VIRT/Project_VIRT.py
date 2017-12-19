@@ -8,8 +8,12 @@ import deletevm
 import stopvm
 import statusvm
 import sys
+import Add_ClientIP
+import Change_Port
+
 # temp = statusvm.vm_State(str())
 # De kvmController regelt de Database connectie en de administratie van de VM's
+
 
 
 class KvmController():
@@ -126,29 +130,9 @@ class KvmServer(BaseHTTPRequestHandler, ):
 class HTTPD():
     # Run methode definieert de HTTP server en poort
     def run(server_class=HTTPServer, handler_class=KvmServer):
-        try:
-            port = int(input("We gaan nu starten welke poort wil je gebruiken?\n"))
-        except ValueError:
-            port = 8000
-            print('Joe!')
 
-
-        antw = str(input("Is port: " + str(port) + " de juiste?(y/n)\n"))
-        if antw =='':
-            print('Joe!')
-        if antw not in ['y', '']:
-            while antw is not "y":
-                port = input("Welke poort wil je gebruiken?\n")
-                antw = str(input("Is port: " + str(port) + "de juiste?(y/n)\n"))
-        global IpAdressen
-        IpAdressen = ["127.0.0.1"]
-        while True
-            NieuwIP = input("Wilt u een nieuw IP adres toevoegen voor de connectie?(y/n) ")
-            if NieuwIP == 'n' or '':
-                break
-            toevoeg = input("Welk IP adres wilt u toevoegen?: \n")
-            IpAdressen.append(toevoeg)
-
+        global IpAdres
+        IpAdressen = Add_ClientIP(IpAdres)
 
         # check of ip goed gaat
         print(IpAdressen)
