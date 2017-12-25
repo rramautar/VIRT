@@ -1,0 +1,60 @@
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 mx-auto">
+        <h1 class="mb-5">Your first steps into virtualization</h1>
+      </div>
+      <% if(!session.authenticated){ %>
+      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <a href="/user/new" class="btn btn-primary"><h3>Sign up now!</h3></a>
+      </div>
+      <% } else { %>
+      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <p class="lead">
+          Welcome back <%= session.User.name %>!
+        </p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</header>
+
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="fa fa-database m-auto text-primary" aria-hidden="true"></i>
+          </div>
+          <h3>Cloud storage</h3>
+          <p class="lead mb-0">Your virtual machines are safely stored in the cloud.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="fa fa-shield m-auto text-primary" aria-hidden="true"></i>
+          </div>
+          <h3>Security</h3>
+          <p class="lead mb-0">Security is our primary focus.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="fa fa-comments-o m-auto text-primary"></i>
+          </div>
+          <h3>Help is around the corner!</h3>
+          <p class="lead mb-0">Our easy-to-reach helpdesk can help you with any questions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

@@ -1,0 +1,111 @@
+<div class="container mt-4 pt-4 text-center">
+  <div class="row">
+    <div class="callout-bubble text-center fade-in-b">
+      <h1><b>Warning</b> - CodeTable is not configured!  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h1>
+      <p>Customers are currently unable to select a setup option when creating a new virtual machine. There has to be at least one setup option for the system to run propperly. Update the CodeTable as fast as possible</p>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-warning mt-2 pt-2" data-toggle="modal" data-target=".bd-example-modal-lg"><h3>Create new entry</h3></button>
+</div>
+
+<!-- Entry creation Modal -->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header modal-header-warning">
+        <h2><i class="fa fa-wrench" aria-hidden="true"></i>  New CodeTable entry</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> [ × ] </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <form action="/codetable/create" method="post">
+              <table class="table table-condensed"><thead>
+                <tr>
+                  <th>Name</th>
+                  <th>RAM</th>
+                  <th>ROM</th>
+                  <th>CPU</th>
+                </tr></thead>
+                <tbody>
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" placeholder="Name of virtual machine" name="name">
+                  </td>
+
+                  <td>
+                    <select class="custom-select" name='ram' placeholder="RAM in GB">
+                      <option value='0.5'>0.5</option>
+                      <option value='1.0'>1.0</option>
+                      <option value='1.5'>1.5</option>
+                    </select>
+                  </td>
+
+                  <td>
+                    <select class="custom-select" name='rom' placeholder="ROM in GB">
+                      <option value='1'>Windows 10</option>
+                      <option value='2'>Debian</option>
+                      <option value='3'>Ubuntu</option>
+                    </select>
+                  </td>
+
+                  <td>
+                    <select class="custom-select" name='cpu' placeholder="CPU in pcs x cores">
+                      <option value='1x2'>1x2</option>
+                      <option value='2x2'>2x2</option>
+                      <option value='2x3'>2x3</option>
+                    </select>
+                  </td>
+                </tr>
+                </tbody></table>
+
+              <textarea class="form-control" id="exampleTextarea" rows="3" name="description"></textarea>
+              <input type="hidden" value="<%= session.User.id %>" name="owner">
+
+              <div class="clearfix"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-right" data-next="modal">Create!</button>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+              </div>
+
+            </form>
+          </div>
+        </div><!-- ends col-12 -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+
+<div class="container mt-2 pt-2 mb-4 pb-4">
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Option</th>
+      <th>RAM</th>
+      <th>ROM</th>
+      <th>CPU</th>
+      <th>DateCreated</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>a4da7f68a87df</td>
+        <td>1</td>
+        <td>1.0000</td>
+        <td>20.000</td>
+        <td>2x1</td>
+        <td>12-12-2017</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+

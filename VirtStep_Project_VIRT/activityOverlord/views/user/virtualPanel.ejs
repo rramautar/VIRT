@@ -1,0 +1,189 @@
+<div class="container text-center mt-4">
+
+  <!-- Large modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><h3>Create virtual machine</h3></button>
+
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header modal-header-primary">
+          <h2><i class="fa fa-desktop" aria-hidden="true"></i>  New virtual machine</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> [ × ] </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <form action="/VirtualMachines/create" method="post">
+                <table class="table table-condensed"><thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Setup Type</th>
+                    <th>Operating System</th>
+                  </tr></thead>
+                  <tbody>
+                  <tr>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Name of virtual machine" name="name">
+                    </td>
+
+                    <td>
+                      <select class="custom-select" name='setup'>
+                        <option value='1'>option a</option><option value='2'>option b</option><option value='3'>option c</option>
+                      </select>
+                    </td>
+
+                    <td>
+                      <select class="custom-select" name='os'>
+                        <option value='1'>Windows 10</option>
+                        <option value='2'>Debian</option>
+                        <option value='3'>Ubuntu</option>
+                      </select>
+                    </td>
+                  </tr>
+                  </tbody></table>
+
+                  <textarea class="form-control" id="exampleTextarea" rows="3" name="description"></textarea>
+                  <input type="hidden" value="<%= session.User.id %>" name="owner">
+
+                  <div class="clearfix"></div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary pull-right" data-next="modal">Create!</button>
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                  </div>
+
+              </form>
+            </div>
+          </div><!-- ends col-12 -->
+        </div>
+      </div><!-- /.modal-content -->
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active in" href="#profile" role="tab" data-toggle="tab"><h4>Running machines <span class="badge badge-pill badge-primary"><%= user.virtualMachines.length %></span></h4></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#buzz" role="tab" data-toggle="tab"><h4>All machines <span class="badge badge-pill badge-primary"><%= user.virtualMachines.length %></span></h4></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#references" role="tab" data-toggle="tab"><h4>Settings</h4></a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade active in" id="profile">
+
+      <% _.each(user.virtualMachines, function(vm) { %>
+        <div class="cardcustom hovercard" style="width: 22.94rem; text-align:center;display:inline-block;">
+          <% if(vm.os == 1 ) { %>
+            <img src="/images/windows10.jpg" alt=""/>
+            <div class="avatar">
+              <img src="/images/icon.png" alt="" />
+            </div>
+          <% } else if(vm.os == 2) { %>
+            <img src="/images/debian.jpg" alt=""/>
+            <div class="avatar">
+              <img src="/images/icon.png" alt="" />
+            </div>
+          <% } else if(vm.os == 3) { %>
+          <img src="/images/ubuntu.png" alt=""/>
+          <div class="avatar">
+            <img src="/images/icon.png" alt="" />
+          </div>
+          <% } %>
+
+          <div class="info">
+            <div class="title">
+              <%= vm.name %>
+            </div>
+            <div class="desc">Operation system choice: <%= vm.os %></div>
+            <div class="desc">System setup configuration: <%= vm.setup %></div>
+            <div class="desc">IP: <%= vm.ip %></div>
+            <div class="desc">State: <%= vm.status %></div>
+          </div>
+          <div class="bottom">
+            <div class="ui-group-buttons">
+              <a href="/VirtualMachines/stop/<%= vm.id %>" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-ok"></span> Stop</a>
+              <div class="or"></div>
+              <a href="/VirtualMachines/start/<%= vm.id %>" class="btn btn-success" role="button"><span class="glyphicon glyphicon-remove"></span> Start</a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="buzz">
+    <!-- start accordion -->
+      <div id="accordion" role="tablist">
+        <% _.each(user.virtualMachines, function(vm) { %>
+          <div class="card">
+            <div class="card-header" role="tab" id="heading<%= vm.id %>">
+              <h5 class="mb-0">
+                <a data-toggle="collapse" href="#collapse<%= vm.id %>" aria-expanded="true" aria-controls="collapse<%= vm.id %>">
+                  <p class="lead"><%= vm.name %></p>
+                </a>
+              </h5>
+            </div>
+
+            <div id="collapse<%= vm.id %>" class="collapse" role="tabpanel" aria-labelledby="heading<%= vm.id %>" data-parent="#accordion">
+              <div class="card-body">
+                <h4 class="card-title"><i class="fa fa-info-circle" aria-hidden="true"></i>  <%= vm.id %></h4>
+                <hr>
+                <h6 class="card-subtitle mb-2 text-muted">Setup: <%= vm.setup %></h6>
+                <h6 class="card-subtitle mb-2 text-muted">OS: <%= vm.os %></h6>
+                <br>
+                <% if (!vm.description) { %>
+                  <p class="card-text">Description: <br>-</p>
+                <% } else { %>
+                  <p class="card-text">Description: <br><%= vm.description %></p>
+                <% } %>
+                <br>
+                <h6 class="card-subtitle mb-2 text-muted">IP: <%= vm.ip %></h6>
+                <h6 class="card-subtitle mb-2 text-muted">Status: <%= vm.status %></h6>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      <!-- end accordion -->
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="references">
+    <!-- start Table -->
+      <div class="container">
+          <table class="table table-hover">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Setup</th>
+                <th>OS</th>
+                <th></th>
+                <th></th>
+              </tr>
+            <tbody>
+              <% _.each(user.virtualMachines, function(vm) { %>
+              <tr data-id="<%= vm.id %>" data-model="VirtualMachines">
+                <td><%= vm.id %></td>
+                <td><%= vm.name %></td>
+                <td><%= vm.setup %></td>
+                <td><%= vm.os %></td>
+                <td><a href="#" class="btn btn-sm btn-warning">Edit</a></td>
+                <td><a href="/VirtualMachines/destroy/<%= vm.id %>" class="btn btn-sm btn-danger">Delete</a></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+      </div>
+    <!-- end table -->
+    </div>
+  </div>
+</div>
+
